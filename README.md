@@ -40,7 +40,7 @@ std::vector<int> point_ids;
 if(pointNKNSquaredDistance[0]<=2.5&&!(pointIdxNKNSearch[0] >= cloud->size()))
 ``` 
 ●如果认为是同一锥桶，那么就会使用先前的点与新点的平均值取代该锥桶坐标，相当于对锥桶坐标进行修正。
-        ``` 
+``` 
         cloud->points[pointIdxNKNSearch[0]].x = (cloud->points[pointIdxNKNSearch[0]].x+point.x)/2.0;
         cloud->points[pointIdxNKNSearch[0]].y = (cloud->points[pointIdxNKNSearch[0]].y+point.y)/2.0;
         Ycone.position_global.x =  cloud->points[pointIdxNKNSearch[0]].x;
