@@ -64,7 +64,8 @@ tf2::Vector3 pos(Carstate.car_state.x , Carstate.car_state.y, 0);
   Ycone.position_baseLink.x = pointToTf.x() + lidarToIMUDist;
     Ycone.position_baseLink.y = pointToTf.y() ;
     Ycone.position_baseLink.z = msgs->points[i].z;
-``` 
+```
+
 ●对于全局坐标来说，就需要进行旋转与平移两步了，先进行旋转，再加上车身位置，最后加上雷达到惯导的距离（旋转后）即可得到
 ``` 
  tf2::Vector3 pointToTf_b = transform * pointToTf;
