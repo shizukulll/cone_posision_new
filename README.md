@@ -22,6 +22,7 @@ std::vector<int> point_ids;
 ●因为是首次接收的锥桶信息，所以无需判断是否重复，处理后直接放入即可
 ### 如果不是首次接收的最锥桶信息
 ●再处理为全局坐标后使用kdTree的方法进行搜索最近点
+
 ``` 
     pcl::PointXYZ point;
     point.x =  Ycone.position_global.x;
@@ -31,8 +32,10 @@ std::vector<int> point_ids;
 
 
      if (kdtree.nearestKSearch(point, 1, pointIdxNKNSearch, pointNKNSquaredDistance) > 0)
-``` 
+```
+
 ●可以修改此处信息更改认为是同一锥桶的范围
+
 ``` 
 if(pointNKNSquaredDistance[0]<=2.5&&!(pointIdxNKNSearch[0] >= cloud->size()))
 ``` 
@@ -46,6 +49,7 @@ if(pointNKNSquaredDistance[0]<=2.5&&!(pointIdxNKNSearch[0] >= cloud->size()))
 ``` 
 ## 旋转逻辑
 ●首先创建旋转矩阵，所需的车身位置向量和雷达到惯导距离向量，使用此旋转矩阵旋转雷达到惯导的距离，以便后面直接使用
+
 ``` 
 tf2::Transform transform;
 
@@ -58,15 +62,19 @@ transform.setRotation(q);
 tf2::Vector3 lidarPosition(lidarToIMUDist,0,0);
 lidarPosition = transform * lidarPosition;
 tf2::Vector3 pos(Carstate.car_state.x , Carstate.car_state.y, 0);
-``` 
+```
+
 ●对于局部坐标来说，坐标轴只是从雷达坐标系转到了以惯导为原点的坐标系，所以对局部坐标的处理只需要再x坐标上加上雷达到惯导的距离即可
+
 ``` 
   Ycone.position_baseLink.x = pointToTf.x() + lidarToIMUDist;
     Ycone.position_baseLink.y = pointToTf.y() ;
     Ycone.position_baseLink.z = msgs->points[i].z;
 ```
 
+
 ●对于全局坐标来说，就需要进行旋转与平移两步了，先进行旋转，再加上车身位置，最后加上雷达到惯导的距离（旋转后）即可得到
+
 ``` 
  tf2::Vector3 pointToTf_b = transform * pointToTf;
  Ycone.position_global.x = pointToTf_b.x() + pos.x() +           lidarPosition.x(); 
