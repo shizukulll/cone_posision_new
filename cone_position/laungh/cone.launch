@@ -1,0 +1,15 @@
+<launch>
+   <include file="$(find velodyne_pointcloud)/launch/VLP-32C_points.launch"/>
+   <include file="$(find lidar_cluster)/launch/lidar_cluster.launch"/>
+   <node pkg="cone_position" type="cone_position" name="cone_position"  output="screen"/>   
+   <node pkg="car_position" type="car_position" name="car_position"  output="screen"/>   
+   <node name="urinay" pkg="urinay" type="urinay_exec" output="screen" ns="/AS/P">
+           <rosparam command="load" file="$(find urinay)/config/urinay.yml" />
+   </node>
+
+   <node pkg="rviz" type="rviz" name="cone_rviz"
+    args="-d $(find cone_position)config/tuxiang.rviz"/>
+    <!-- <include file="$(find linear_acc)/launch/linear_acc.launch"/> -->
+    <!-- <node pkg="rosbag" type="record" name="bag_record" args="/velodyne_points -o ~/lidar_linear.bag"/> -->
+
+</launch>

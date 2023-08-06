@@ -1,0 +1,7 @@
+<launch>
+   <include file="$(find velodyne_pointcloud)/launch/VLP-32C_points.launch"/>
+   <include file="$(find lidar_cluster)/launch/lidar_cluster.launch"/>
+   <node pkg="cone_position" type="cone_position" name="cone_position"  output="screen"/>   
+   <node pkg="car_position" type="car_position" name="car_position"  output="screen"/>   
+   <node pkg="tf_test" type="tf_test" name="tf_test"  output="screen"/>   
+</launch>
